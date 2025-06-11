@@ -33,27 +33,27 @@
    <!-- Sidebar Menu -->
 <aside id="sidebar" class="fixed top-0 left-0 w-64 h-full bg-gray-900 z-50 transform -translate-x-full transition-transform duration-300">
   <div class="flex justify-between items-center p-4 border-b border-gray-700">
-    <h2 class="text-lg font-semibold">Menú</h2>
+    <h2 class="text-lg font-semibold">Menu</h2>
     <button onclick="toggleSidebar(false)" class="text-white text-xl">
-      ×
+      Ã—
     </button>
   </div>
   <nav class="flex flex-col space-y-4 p-4 flex-grow">
     <a href="https://zinecia.github.io/Home" class="hover:text-blue-400">Regresar</a>
     <a href="https://zinecia.github.io/Buscador/" class="hover:text-blue-400">Buscar</a>
-    <a href="https://zinecia.github.io/Movie" class="hover:text-blue-400">Películas</a>
+    <a href="https://zinecia.github.io/Movie" class="hover:text-blue-400">Peliculas</a>
     <a href="https://zinecia.github.io/Favoritos/" class="hover:text-blue-400">Favoritos</a>
     <a href="https://cuentaappcreator.github.io/streaming/" class="hover:text-blue-400">Streaming</a>
   </nav>
 
-  <!-- Botón para cerrar menú al final -->
+  <!-- BotÃ³n para cerrar menÃº al final -->
   <div class="p-4 border-t border-gray-700">
     <button
       onclick="toggleSidebar(false)"
       class="w-full bg-blue-700 hover:bg-blue-800 text-white font-semibold py-2 rounded"
-      aria-label="Cerrar menú"
+      aria-label="Cerrar menÃº"
     >
-      Cerrar menú
+      Cerrar menu
     </button>
   </div>
 </aside>
@@ -62,21 +62,17 @@
     <!-- Header -->
     <header class="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-3 py-2 bg-black">
 
-      <!-- Botón del menú -->
+      <!-- BotÃ³n del menÃº -->
       <button aria-label="Menu" class="text-white text-2xl" onclick="toggleSidebar(true)">
         <i class="fas fa-bars"></i>
       </button>
 
       <!-- Logo con enlace -->
       <a href="https://zinecia.github.io/Home" class="block w-28 sm:w-32">
-        <img
-          src="LOGO.JPNG" 
-          alt="Mi logo"
-          class="w-full h-auto object-contain"
-        />
+       <h1>CIENCIA FICCION</h1>
       </a>
 
-      <!-- Botón de búsqueda -->
+      <!-- BotÃ³n de bÃºsqueda -->
       <a href="https://zinecia.github.io/Buscador/"><button aria-label="Search" class="text-white text-2xl"> 
         <i class="fas fa-search"></i>
       </button></a>
@@ -102,7 +98,7 @@
       </span>
     </div>
     <p class="mt-1 text-center text-xs font-semibold leading-tight line-clamp-2">
-      WALL�E: Batall�n de limpieza
+      WALL·E: Batallón de limpieza
     </p>
   </article>
 </a>
@@ -188,7 +184,7 @@
 
 
 
-        <!-- Puedes duplicar más pósters aquí con diferentes enlaces -->
+        <!-- Puedes duplicar mÃ¡s pÃ³sters aquÃ­ con diferentes enlaces -->
       </div>
     </main>
 
@@ -205,6 +201,55 @@
           overlay.classList.add('hidden');
         }
       }
+        document.addEventListener("DOMContentLoaded", function () {
+  function limpiarTextoRoto(texto) {
+    try {
+      let limpio = decodeURIComponent(escape(texto));
+      limpio = limpio.replace(/[^a-zA-Z0-9áéíóúüñÁÉÍÓÚÜÑ¡!¿?.,:;()\[\]{}<>«»"'°\-\s]/g, "");
+      return limpio;
+    } catch (e) {
+      return texto;
+    }
+  }
+
+  function limpiarNodo(node) {
+    // Limpiar texto de nodos de texto
+    if (node.nodeType === 3) {
+      node.textContent = limpiarTextoRoto(node.textContent);
+    }
+
+    // Limpiar atributos de elementos HTML
+    if (node.nodeType === 1) {
+      const atributos = ["alt", "title", "placeholder", "aria-label"];
+      atributos.forEach(attr => {
+        if (node.hasAttribute(attr)) {
+          node.setAttribute(attr, limpiarTextoRoto(node.getAttribute(attr)));
+        }
+      });
+    }
+
+    // Recursividad para limpiar todo
+    node.childNodes.forEach(hijo => limpiarNodo(hijo));
+  }
+
+  // Limpieza inicial
+  limpiarNodo(document.body);
+
+  // Observador para cambios futuros (dinámicos)
+  const observer = new MutationObserver(mutations => {
+    mutations.forEach(mutation => {
+      mutation.addedNodes.forEach(nodo => {
+        limpiarNodo(nodo);
+      });
+    });
+  });
+
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true,
+    characterData: true
+  });
+});
     </script>
   </body>
 </html>
